@@ -6,7 +6,16 @@
   height: 40vmin;
   pointer-events: none;
 }
-
+body{
+  background-color: black;
+}
+#hero{
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+#partners{
+  display: inline-block;
+}
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
@@ -35,4 +44,18 @@
   to {
     transform: rotate(360deg);
   }
+}
+@keyframes pop {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-pop {
+  animation: pop 0.3s cubic-bezier(0.26, 0.53, 0.74, 1.48) forwards;
 }

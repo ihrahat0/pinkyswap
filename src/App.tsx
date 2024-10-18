@@ -1,26 +1,28 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { WalletProvider, ConnectionProvider } from '@solana/wallet-adapter-react';
+import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
+import { PhantomWalletAdapter, SolflareWalletAdapter } from '@solana/wallet-adapter-wallets';
+import TokenSwap from './components/TokenSwap';
 
-function App() {
+require('@solana/wallet-adapter-react-ui/styles.css');
+
+const App: React.FC = () => {
+  const wallets = [
+    new PhantomWalletAdapter(),
+    new SolflareWalletAdapter(),
+  ];
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ConnectionProvider endpoint="https://muddy-sparkling-seed.solana-mainnet.quiknode.pro/04141016287f05de971dbf54aadd6e4a0931a8bf">
+      <WalletProvider wallets={wallets} autoConnect>
+        <WalletModalProvider>
+          <div className="App">
+            <TokenSwap />
+          </div>
+        </WalletModalProvider>
+      </WalletProvider>
+    </ConnectionProvider>
   );
-}
+};
 
 export default App;
