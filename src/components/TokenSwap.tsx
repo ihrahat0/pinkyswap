@@ -69,7 +69,7 @@ export default function Component() {
   }, []);
 
   const fetchTokenBalance = useCallback(async (token: Token, walletPublicKey: web3.PublicKey): Promise<number> => {
-    const solana = new web3.Connection("https://muddy-sparkling-seed.solana-mainnet.quiknode.pro/04141016287f05de971dbf54aadd6e4a0931a8bf/");
+    const solana = new web3.Connection("https://alpha-responsive-uranium.solana-mainnet.quiknode.pro/85df3f357dba323cbe4b53c20e0ab976796a47f6");
 
     try {
       if (token.symbol === 'SOL') {
@@ -183,7 +183,7 @@ export default function Component() {
     if (!publicKey || !fromToken || !toToken) return;
 
     try {
-      const solana = new web3.Connection("https://muddy-sparkling-seed.solana-mainnet.quiknode.pro/04141016287f05de971dbf54aadd6e4a0931a8bf/");
+      const solana = new web3.Connection("https://alpha-responsive-uranium.solana-mainnet.quiknode.pro/85df3f357dba323cbe4b53c20e0ab976796a47f6");
       const solanaTracker = new SolanaTracker(
         solana,
         'f74df995-dea5-4427-bcd1-f8be8c1c1d6f'
