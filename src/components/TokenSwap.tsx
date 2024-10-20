@@ -12,7 +12,7 @@ import backgroundImageDark from './bgm.jpg';
 import backgroundImageLight from './bgwhite.jpg';
 import logo from './logo.gif';
 import { predefinedTokens } from './predefinedTokens';
-import { socialLinks, partnerLogos } from './partners';
+import { socialLinks, partnerLogos, partnerLogosBottom } from './partners';
 
 interface Token {
   symbol: string;
@@ -122,25 +122,26 @@ export default function Component() {
 
   useEffect(() => {
     const initializeTokens = async () => {
-      if (publicKey && fromToken && toToken) {
-        const tokensToUpdate = [fromToken, toToken];
+      const solToken = tokens.find(t => t.symbol === 'SOL');
+      const pinkyToken = tokens.find(t => t.symbol === 'PINKY');
+      const rayToken = tokens.find(t => t.symbol === 'RAY');
+      const usdcToken = tokens.find(t => t.symbol === 'USDC');
+
+      if (solToken && pinkyToken && rayToken && usdcToken) {
+        const tokensToUpdate = [solToken, pinkyToken, rayToken, usdcToken];
         const updatedTokens = await updateTokens(tokensToUpdate);
-        setFromToken(updatedTokens.find(t => t.address === fromToken.address) || fromToken);
-        setToToken(updatedTokens.find(t => t.address === toToken.address) || toToken);
+
+        if (!fromToken) {
+          setFromToken(updatedTokens.find(t => t.symbol === 'SOL') || null);
+        }
+        if (!toToken) {
+          setToToken(updatedTokens.find(t => t.symbol === 'PINKY') || null);
+        }
       }
     };
 
     initializeTokens();
-  }, [updateTokens, publicKey, fromToken, toToken]);
-
-  useEffect(() => {
-    if (!fromToken && tokens.length > 0) {
-      setFromToken(tokens[0]);
-    }
-    if (!toToken && tokens.length > 1) {
-      setToToken(tokens[1]);
-    }
-  }, [tokens]);
+  }, [updateTokens]);
 
   useEffect(() => {
     if (amount && fromToken && toToken) {
@@ -428,6 +429,8 @@ export default function Component() {
               ))}
             </div>
           </div>
+
+
           <div className={`${isDarkMode ? 'bg-gray-800 bg-opacity-80' : 'bg-white'} rounded-2xl shadow-xl p-6 w-96`}>
             <div className="flex justify-between items-center mb-4">
               <h2 className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>Swap</h2>
@@ -646,7 +649,33 @@ export default function Component() {
               </div>
             </div>
           </div>
+
+          
         )}
+
+<div className="mt-12 w-full max-w-2xl" style={{ display: 'inline-block' }}> {/* Reduced max-width for 70% smaller */}
+            <h3 className={`text-xl font-bold mb-4 text-center ${isDarkMode ? 'text-white' : 'text-black'}`}>Our Partners</h3>
+            <div className="grid grid-cols-8 gap-6"> {/* Changed to 4 columns */}
+              {partnerLogosBottom.map((partner, index) => (
+                <a
+                  key={index}
+                  href={partner.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="transform transition-all duration-300 hover:scale-110"
+                >
+                  <img
+                    src={partner.img}
+                    alt={`Partner ${index + 1}`}
+                    className="w-full h-auto rounded-lg shadow-lg"
+                    style={{
+                      animation: `popIn 0.5s ease-out ${index * 0.1}s both`,
+                    }}
+                  />
+                </a>
+              ))}
+            </div>
+          </div>
         {showComingSoon && (
           <div className="fixed inset-0 flex items-center justify-center z-50">
             <div className={`${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'} rounded-xl p-6 shadow-xl`}>
