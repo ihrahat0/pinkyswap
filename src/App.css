@@ -45,17 +45,13 @@ body{
     transform: rotate(360deg);
   }
 }
-@keyframes pop {
+@keyframes popIn {
   0% {
-    transform: scale(0.8);
     opacity: 0;
+    transform: scale(0.5);
   }
   100% {
-    transform: scale(1);
     opacity: 1;
+    transform: scale(1);
   }
-}
-
-.animate-pop {
-  animation: pop 0.3s cubic-bezier(0.26, 0.53, 0.74, 1.48) forwards;
 }

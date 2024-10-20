@@ -217,6 +217,27 @@ export default function Component() {
     }
   };
 
+  const handleTokenSelection = async (token: Token, isFromToken: boolean) => {
+    const updatedTokens = await updateTokens([token]);
+    const updatedToken = updatedTokens[0];
+
+    if (isFromToken) {
+      setFromToken(updatedToken);
+      if (amount && toToken) {
+        const newToAmount = (parseFloat(amount) * updatedToken.price / toToken.price).toFixed(6);
+        setToAmount(newToAmount);
+      }
+    } else {
+      setToToken(updatedToken);
+      if (amount && fromToken) {
+        const newToAmount = (parseFloat(amount) * fromToken.price / updatedToken.price).toFixed(6);
+        setToAmount(newToAmount);
+      }
+    }
+
+    setShowTokenSelector(null);
+  };
+
   const handleSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchTerm(value);
@@ -615,14 +636,7 @@ export default function Component() {
                     <button
                       key={token.address}
                       className={`flex items-center justify-between w-full p-3 hover:bg-gray-700 rounded-xl ${isDarkMode ? 'text-white bg-gray-700' : 'text-black bg-gray-100'} mb-2 transition-transform duration-200 ease-in-out transform hover:scale-105`}
-                      onClick={() => {
-                        if (showTokenSelector === 'from') {
-                          setFromToken(token);
-                        } else {
-                          setToToken(token);
-                        }
-                        setShowTokenSelector(null);
-                      }}
+                      onClick={() => handleTokenSelection(token, showTokenSelector === 'from')}
                     >
                       <div className="flex items-center space-x-3">
                         {token.logo ? (
@@ -649,9 +663,8 @@ export default function Component() {
               </div>
             </div>
           </div>
-
-          
         )}
+
 
 <div className="mt-12 w-full max-w-2xl" style={{ display: 'inline-block' }}> {/* Reduced max-width for 70% smaller */}
             <h3 className={`text-xl font-bold mb-4 text-center ${isDarkMode ? 'text-white' : 'text-black'}`}>Our Partners</h3>
